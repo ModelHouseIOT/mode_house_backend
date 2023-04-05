@@ -10,10 +10,10 @@ namespace ModelHouse.Profile.Services;
 public class ContactService: IContactService
 {
     private readonly IContactRepository _contactRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly IAccountRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ContactService(IContactRepository contactRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public ContactService(IContactRepository contactRepository, IAccountRepository userRepository, IUnitOfWork unitOfWork)
     {
         _contactRepository = contactRepository;
         _userRepository = userRepository;

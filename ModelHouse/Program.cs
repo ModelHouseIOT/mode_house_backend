@@ -111,10 +111,12 @@ builder.Services.AddHttpContextAccessor();
 // Security Injection Configuration
 
 builder.Services.AddScoped<IJwtHandler, JwtHandler>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IProfileUserRepository, ProfileUserRepository>();
-builder.Services.AddScoped<IProfileUserService, ProfileUserService>();
+builder.Services.AddScoped<IBusinessProfileRepository, BusinessProfileRepository>();
+builder.Services.AddScoped<IBusinessProfileService, BusinessProfileService>();
 
 
 // AutoMapper Configuration

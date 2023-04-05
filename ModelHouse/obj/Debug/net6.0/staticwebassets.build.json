@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Hwy8rp3Gi/lU6DFvsn3csyZfNhOn9quCwdSbwr3WR6s=",
+  "Hash": "H9N9DN5CzPRS1mwOAPLfF32owGA6Z/F5YvAidOarF2Y=",
   "Source": "ModelHouse",
   "BasePath": "_content/ModelHouse",
   "Mode": "Default",
@@ -15,5 +15,23 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\ImageUser\\08ada9ab-6d5e-4782-937d-1beae2ea5c0e.jpeg",
+      "SourceId": "ModelHouse",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\",
+      "BasePath": "_content/ModelHouse",
+      "RelativePath": "ImageUser/08ada9ab-6d5e-4782-937d-1beae2ea5c0e.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ImageUser\\08ada9ab-6d5e-4782-937d-1beae2ea5c0e.jpeg"
+    }
+  ]
 }

@@ -10,6 +10,6 @@ public class Notification
     public bool active { get; set; }
     public DateTime ShippingTime { get; set; }
     
-    public User User { get; set; }
-    public long UserId { get; set; }
+    public Account Account { get; set; }
+    public long AccountId { get; set; }
 }

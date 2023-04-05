@@ -12,6 +12,6 @@ public class PostResource
     public string Description { get; set; }
     public string Foto { get; set; }
     
-    public UserResource User { get; set; }
+    public AccountResource User { get; set; }
     public long UserId { get; set; }
 }

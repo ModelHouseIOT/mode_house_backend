@@ -10,12 +10,12 @@ namespace ModelHouse.Profile.Services;
 public class PostService: IPostService
 {
     private readonly IPostRepository _postRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly IAccountRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public PostService(IUnitOfWork unitOfWork, IUserRepository userRepository, IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
+    public PostService(IUnitOfWork unitOfWork, IAccountRepository userRepository, IPostRepository postRepository, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
     {
         _unitOfWork = unitOfWork;
         _userRepository = userRepository;
@@ -36,7 +36,7 @@ public class PostService: IPostService
 
     public async Task<PostResponse> CreateAsync(Post post, byte[] file, string contentType,string extension, string container)
     {
-        var User = await _userRepository.FindByIdAsync(post.UserId);
+        var User = await _userRepository.FindByIdAsync(post.AccountId);
         if (User == null)
             return new PostResponse("User is not exist");
         

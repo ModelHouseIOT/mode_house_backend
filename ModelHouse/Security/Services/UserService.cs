@@ -1,154 +1,114 @@
-using AutoMapper;
+﻿using AutoMapper;
+using Google.Protobuf;
+using Microsoft.AspNetCore.Hosting;
 using ModelHouse.Security.Authorization.Handlers.Interfaces;
 using ModelHouse.Security.Domain.Models;
 using ModelHouse.Security.Domain.Repositories;
 using ModelHouse.Security.Domain.Services;
 using ModelHouse.Security.Domain.Services.Communication;
-using ModelHouse.Security.Exceptions;
+using ModelHouse.Security.Persistence.Repositories;
+using ModelHouse.Security.Resources;
 using ModelHouse.Shared.Domain.Repositories;
-using BCryptNet = BCrypt.Net.BCrypt;
-namespace ModelHouse.Security.Services;
+using System.ComponentModel;
 
-public class UserService : IUserService
+namespace ModelHouse.Security.Services
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    private readonly IJwtHandler _jwtHandler;
-    private readonly IMapper _mapper;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-
-    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IJwtHandler jwtHandler, IMapper mapper, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
+    public class UserService : IUserService
     {
-        _userRepository = userRepository;
-        _unitOfWork = unitOfWork;
-        _jwtHandler = jwtHandler;
-        _mapper = mapper;
-        _webHostEnvironment = webHostEnvironment;
-        _httpContextAccessor = httpContextAccessor;
-    }
+        private readonly IUserRepository _userRepository;
+        private readonly IAccountRepository _accountRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IJwtHandler _jwtHandler;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
-    {
-        var user = await _userRepository.FindByEmailAsync(request.EmailAddress);
-        Console.WriteLine($"Request: {request.EmailAddress}, {request.Password}");
-        Console.WriteLine($"User: {user.Id},{user.EmailAddress}, {user.PasswordHash}");
-        
-        // Validate 
-        if (user == null || !BCryptNet.Verify(request.Password, user.PasswordHash))
+        public UserService(IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment,
+            IJwtHandler _jwtHandler,
+            IAccountRepository accountRepository, 
+            IUnitOfWork _unitOfWork, IUserRepository userRepository)
         {
-            Console.WriteLine("Authentication Error");
-            throw new AppException("Username or password is incorrect");
+            this._userRepository = userRepository;
+            this._unitOfWork = _unitOfWork;
+            this._accountRepository = accountRepository;
+            this._jwtHandler = _jwtHandler;
+            this._webHostEnvironment = webHostEnvironment;
+            this._httpContextAccessor = httpContextAccessor;
         }
-        
-        Console.WriteLine("Authentication successful. About to generate token");
-        // Authentication successful
-        var response = _mapper.Map<AuthenticateResponse>(user);
-        Console.WriteLine($"Response: {response.Id}, {response.EmailAddress}");
-        response.Token = _jwtHandler.GenerateToken(user);
-        Console.WriteLine($"Generated token is {response.Token}");
-        return response;
-    }
 
-    public async Task<IEnumerable<User>> ListAsync()
-    {
-        return await _userRepository.ListAsync();
-    }
-
-    public async Task<User> GetByIdAsync(int id)
-    {
-        var user = await _userRepository.FindByIdAsync(id);
-        Console.WriteLine(user.ProfileUser);
-        Console.WriteLine("Hola hola hola hola");
-        if (user == null) throw new KeyNotFoundException("User not found");
-        return user;
-    }
-
-    public async Task<User> GetByEmailAsync(string email)
-    {
-        return await _userRepository.FindByEmailAsync(email);
-    }
-
-
-    public async Task RegisterAsync(RegisterRequest request)
-    {
-        // Validate if Username is already taken
-        if (_userRepository.ExistsByEmail(request.EmailAddress))
-            throw new AppException($"Email is already taken");
-        
-        // Map Request to User Object
-        var user = _mapper.Map<User>(request);
-        
-        // Hash password
-        user.PasswordHash = BCryptNet.HashPassword(request.Password);
-        
-        // Save User
-        try
+        public async Task<UserResponse> CreateUser(User profile)
         {
-            await _userRepository.AddAsync(user);
-            await _unitOfWork.CompleteAsync();
-        }
-        catch (Exception e)
-        {
-            throw new AppException($"An Error occurred while saving the user: {e.Message}");
-        }
-    }
+            var existingAccount = await _accountRepository.FindByIdAsync(profile.AccountId);
+            if (existingAccount == null)
+                return new UserResponse("Invalid user");
+            if (existingAccount.User != null)
+                return new UserResponse("The user already has a profile");
+            try
+            {
+                await _userRepository.CreateUser(profile);
+                await _unitOfWork.CompleteAsync();
 
-    public async Task<User> UpdateAsync(int id, UpdateRequest request, byte[] file, string contentType,string extension, string container)
-    {
-        var user = GetById(id);
-        if(user == null)
-            return null;
-        try
-        {
-            string wwwrootPath = _webHostEnvironment.WebRootPath;
-            if (string.IsNullOrEmpty(wwwrootPath))
-                throw new Exception();
-            string carpetaArchivo = Path.Combine(wwwrootPath, container);
-            if (!Directory.Exists(carpetaArchivo))
-                Directory.CreateDirectory(carpetaArchivo);
-            string nombreFinal = $"{Guid.NewGuid()}{extension}";
-            //System.Console.WriteLine(file);
-            string rutaFinal = Path.Combine(carpetaArchivo, nombreFinal);
-            System.Console.WriteLine(rutaFinal);
-            File.WriteAllBytesAsync(rutaFinal, file);
-            string urlActual =
-                $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
-            string dbUrl = Path.Combine(urlActual, container, nombreFinal).Replace("\\", "/");
+                return new UserResponse(profile);
+            }
+            catch (Exception e)
+            {
+                return new UserResponse($"An error occurred while saving the area: {e.Message}");
+            }
+        }
 
-            //user.Image = dbUrl;
-            
-            _userRepository.Update(user);
-            await _unitOfWork.CompleteAsync();
-            return user;
-        }
-        catch (Exception e)
+        public async Task<IEnumerable<User>> GetAllUser()
         {
-            throw new AppException($"An error occurred while updating the user: {e.Message}");
-        }
-    }
-    
-    public async Task DeleteAsync(int id)
-    {
-        var user = GetById(id);
-        try
+            return await _userRepository.GetAllUser();
+        } 
+
+        public async Task<UserResponse> GetUserByUserId(long id)
         {
-            _userRepository.Remove(user);
-            await _unitOfWork.CompleteAsync();
+            var existingUser = await _accountRepository.FindByIdAsync(id);
+            if (existingUser == null)
+                return new UserResponse("Invalid user");
+
+            return new (await _userRepository.GetUserById(id));
         }
-        catch (Exception e)
+
+        public async Task<UserResponse> UpdateUser(long id, UpdateUserResource user, byte[] file, string contentType, string extension, string container)
         {
-            throw new AppException($"An error occurred while deleting the user: {e.Message}");
+            var existingUser = await _userRepository.GetUserById(id);
+            if (existingUser == null)
+                return new UserResponse("User not found");
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;
+            existingUser.PhoneNumber = user.PhoneNumber;
+            existingUser.RegistrationDate = user.RegistrationDate;
+            existingUser.LastLogin = user.LastLogin;
+            existingUser.Gender = user.Gender;
+            existingUser.AccountStatus = user.AccountStatus;
+            try
+            {
+                string wwwrootPath = _webHostEnvironment.WebRootPath;
+                if (string.IsNullOrEmpty(wwwrootPath))
+                    throw new Exception();
+                string carpetaArchivo = Path.Combine(wwwrootPath, container);
+                if (!Directory.Exists(carpetaArchivo))
+                    Directory.CreateDirectory(carpetaArchivo);
+                string nombreFinal = $"{Guid.NewGuid()}{extension}";
+                //System.Console.WriteLine(file);
+                string rutaFinal = Path.Combine(carpetaArchivo, nombreFinal);
+                System.Console.WriteLine(rutaFinal);
+                File.WriteAllBytesAsync(rutaFinal, file);
+                string urlActual =
+                    $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
+                string dbUrl = Path.Combine(urlActual, container, nombreFinal).Replace("\\", "/");
+
+                existingUser.Image = dbUrl;
+
+                _userRepository.UpdateUser(existingUser);
+                await _unitOfWork.CompleteAsync();
+                return new UserResponse(existingUser);
+            }
+            catch (Exception e)
+            {
+                return new UserResponse($"An error occurred while saving the area: {e.Message}");
+            }
         }
-    }
-    
-    // Helper Methods
-    private User GetById(int id)
-    {
-        var user = _userRepository.FindById(id);
-        if (user == null) throw new KeyNotFoundException("User not found");
-        return user;
     }
 }

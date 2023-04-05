@@ -8,13 +8,16 @@ public class ModelToResourceProfile : AutoMapper.Profile
 {
     public ModelToResourceProfile()
     {
-        CreateMap<User, AuthenticateResponse>();
-        CreateMap<User, UserResource>();
-        CreateMap<User, UpdateRequest>();
+        CreateMap<Account, AuthenticateResponse>();
+        CreateMap<Account, AccountResource>();
+        CreateMap<Account, UpdateRequest>();
 
+        CreateMap<User, CreateUseResource>();
+        CreateMap<User, UpdateUserResource>();
+        CreateMap<User, GetUserResource>();
 
-        CreateMap<ProfileUser, CreateProfileUseResource>();
-        CreateMap<ProfileUser, UpdateProfileUserResource>();
-        CreateMap<ProfileUser, GetProfileUserResource>();
+        CreateMap<BusinessProfile, CreateBusinessProfileResource>();
+        CreateMap<BusinessProfile, UpdateBusinessProfileResource>();
+        CreateMap<BusinessProfile, GetBusinessProfileResource>();
     }
 }

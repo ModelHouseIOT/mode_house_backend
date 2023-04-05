@@ -9,11 +9,11 @@ namespace ModelHouse.Profile.Services;
 
 public class NotificationService: INotificationService
 {
-    private readonly IUserRepository _userRepository;
+    private readonly IAccountRepository _userRepository;
     private readonly INotificationRepository _notificationRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public NotificationService(IUserRepository userRepository, INotificationRepository notificationRepository, IUnitOfWork unitOfWork)
+    public NotificationService(IAccountRepository userRepository, INotificationRepository notificationRepository, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _notificationRepository = notificationRepository;
@@ -32,7 +32,7 @@ public class NotificationService: INotificationService
 
     public async Task<NotificationResponse> CreateAsync(Notification notification)
     {
-        var user = await _userRepository.FindByIdAsync(notification.UserId);
+        var user = await _userRepository.FindByIdAsync(notification.AccountId);
         if (user == null)
             return new NotificationResponse("Notification is not exist");
         try

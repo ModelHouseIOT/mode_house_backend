@@ -5,19 +5,20 @@ using ModelHouse.Security.Domain.Models;
 using ModelHouse.Security.Domain.Services;
 using ModelHouse.Security.Domain.Services.Communication;
 using ModelHouse.Security.Resources;
+using System.Security.Principal;
 
 namespace ModelHouse.Security.Controllers;
 
 [ApiController]
 [Route("/api/v1/[controller]")]
-public class UsersController : ControllerBase
+public class AccountController : ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IAccountService _accountService;
     private readonly IMapper _mapper;
 
-    public UsersController(IUserService userService, IMapper mapper)
+    public AccountController(IAccountService accountService, IMapper mapper)
     {
-        _userService = userService;
+        _accountService = accountService;
         _mapper = mapper;
     }
 
@@ -25,7 +26,7 @@ public class UsersController : ControllerBase
     [HttpPost("sign-in")]
     public async Task<IActionResult> Authenticate(AuthenticateRequest request)
     {
-        var response = await _userService.Authenticate(request);
+        var response = await _accountService.Authenticate(request);
         return Ok(response);
     }
 
@@ -33,31 +34,31 @@ public class UsersController : ControllerBase
     [HttpPost("sign-up")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        await _userService.RegisterAsync(request);
+        await _accountService.RegisterAsync(request);
         return Ok(new { message = "Registration successful" });
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var users = await _userService.ListAsync();
-        var resources = _mapper.Map<IEnumerable<User>, IEnumerable<UserResource>>(users);
+        var account = await _accountService.ListAsync();
+        var resources = _mapper.Map<IEnumerable<Account>, IEnumerable<AccountResource>>(account);
         return Ok(resources);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var user = await _userService.GetByIdAsync(id);
-        var resource = _mapper.Map<User, UserResource>(user);
+        var account = await _accountService.GetByIdAsync(id);
+        var resource = _mapper.Map<Account, AccountResource>(account);
 
         return Ok(resource);
     }
     [HttpGet("find/{email}")]
     public async Task<IActionResult> GetByEmail(string email)
     {
-        var user = await _userService.GetByEmailAsync(email);
-        var resource = _mapper.Map<User, UserResource>(user);
+        var account = await _accountService.GetByEmailAsync(email);
+        var resource = _mapper.Map<Account, AccountResource>(account);
 
         return Ok(resource);
     }
@@ -66,18 +67,9 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> Update(int id, [FromForm] UpdateRequest request)
     {
         using var stream = new MemoryStream();
-        //IFormFile foto = request.Image;
-        //await foto.CopyToAsync(stream);
         var fileBytes = stream.ToArray();
         
         var response = "await _userService.UpdateAsync(id, request, fileBytes, foto.ContentType,Path.GetExtension(foto.FileName))";
         return Ok(new { message = response });
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<string> Delete(int id)
-    {
-        //await _userService.DeleteAsync(id);
-        return "que fue causa";
     }
 }

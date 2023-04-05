@@ -8,8 +8,8 @@ public class ResourceToModelProfile : AutoMapper.Profile
 {
     public ResourceToModelProfile()
     {
-        CreateMap<RegisterRequest, User>();
-        CreateMap<UpdateRequest, User>().ForAllMembers(options => 
+        CreateMap<RegisterRequest, Account>();
+        CreateMap<UpdateRequest, Account>().ForAllMembers(options => 
             options.Condition((source, target, property) =>
                 {
                     if (property == null) return false;
@@ -18,8 +18,13 @@ public class ResourceToModelProfile : AutoMapper.Profile
                 }
                 
             ));
-        CreateMap<CreateProfileUseResource, ProfileUser>();
-        CreateMap<UpdateProfileUserResource, ProfileUser>();
-        CreateMap<GetProfileUserResource, ProfileUser>();
+
+        CreateMap<CreateUseResource, User>();
+        CreateMap<UpdateUserResource, User>();
+        CreateMap<GetUserResource, User>();
+
+        CreateMap<CreateBusinessProfileResource, BusinessProfile>();
+        CreateMap<UpdateBusinessProfileResource, BusinessProfile>();
+        CreateMap<GetBusinessProfileResource, BusinessProfile>();
     }
 }

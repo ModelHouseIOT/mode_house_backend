@@ -16,7 +16,7 @@ public class JwtMiddleware
         _appSettings = appSettings.Value;
     }
 
-    public async Task Invoke(HttpContext context, IUserService userService, IJwtHandler handler)
+    public async Task Invoke(HttpContext context, IAccountService userService, IJwtHandler handler)
     {
         var token = context.Request.Headers["Authorization"]
             .FirstOrDefault()?.Split(" ").Last();

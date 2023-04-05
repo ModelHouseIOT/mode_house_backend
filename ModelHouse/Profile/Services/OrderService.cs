@@ -9,11 +9,11 @@ namespace ModelHouse.Profile.Services;
 public class OrderService: IOrderService
 {
     private readonly IOrderRepository _orderRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly IAccountRepository _userRepository;
     private readonly IPostRepository _postRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public OrderService(IUserRepository userRepository, IOrderRepository orderRepository, IPostRepository postRepository, IUnitOfWork unitOfWork)
+    public OrderService(IAccountRepository userRepository, IOrderRepository orderRepository, IPostRepository postRepository, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _orderRepository = orderRepository;
@@ -33,7 +33,7 @@ public class OrderService: IOrderService
 
     public async Task<OrderResponse> CreateAsync(Order order)
     {
-        var user = await _userRepository.FindByIdAsync(order.UserId);
+        var user = await _userRepository.FindByIdAsync(order.AccountId);
         if (user == null)
             return new OrderResponse("User is not exist");
         var post_exist = await _postRepository.FindByIdAsync(order.PostId);
@@ -42,7 +42,7 @@ public class OrderService: IOrderService
         var send_user_exist = await _userRepository.FindByIdAsync(order.SendUserId);
         if (send_user_exist == null)
             return new OrderResponse("The user send is not exist");
-        if (order.UserId == order.SendUserId)
+        if (order.AccountId == order.SendUserId)
             return new OrderResponse("A user cannot make an order to his own post");
         try
         {

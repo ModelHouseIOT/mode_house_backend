@@ -3,14 +3,13 @@ using ModelHouse.Shared.Domain.Services.Communication;
 
 namespace ModelHouse.Security.Domain.Services.Communication
 {
-    public class ProfileResponse : BaseResponse<ProfileUser>
+    public class ProjectResponse : BaseResponse<Project>
     {
-        public ProfileResponse(ProfileUser resource) : base(resource)
+        public ProjectResponse(Project resource) : base(resource)
         {
-
         }
 
-        public ProfileResponse(string message) : base(message)
+        public ProjectResponse(string message) : base(message)
         {
         }
     }

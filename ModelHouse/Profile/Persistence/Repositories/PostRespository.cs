@@ -15,21 +15,21 @@ public class PostRepository: BaseRepository, IPostRepository
     public async Task<IEnumerable<Post>> ListAsync()
     {
         return await _context.Posts
-            .Include(p => p.User)
+            .Include(p => p.Account)
             .ToListAsync();
     }
 
     public async Task<IEnumerable<Post>> ListByUserId(long id)
     {
-        return await _context.Posts.Where(p => p.UserId == id)
-            .Include(p => p.User)
+        return await _context.Posts.Where(p => p.AccountId == id)
+            .Include(p => p.Account)
             .ToListAsync();
     }
 
     public async Task<Post> FindByIdAsync(long id)
     {
         return await _context.Posts
-            .Include(p => p.User)
+            .Include(p => p.Account)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
@@ -37,7 +37,7 @@ public class PostRepository: BaseRepository, IPostRepository
     {
         return await _context.Posts
             .Where(p=>p.Title == title)
-            .Include(p => p.User)
+            .Include(p => p.Account)
             .ToListAsync();
     }
 

@@ -8,7 +8,7 @@ public class OrderResource
     public string Title { get; set; }
     public string Description { get; set; }
     
-    public UserResource User { get; set; }
+    public AccountResource User { get; set; }
     public long UserId { get; set; }
     
     public long SendUserId { get; set; } 

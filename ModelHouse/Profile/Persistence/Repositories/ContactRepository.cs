@@ -16,21 +16,21 @@ public class ContactRepository: BaseRepository, IContactRepository
     public async Task<IEnumerable<Contact>> ListAsync()
     {
         return await _context.Contacts
-            .Include(p => p.User)
+            .Include(p => p.Account)
             .ToListAsync(); 
     }
 
     public async Task<IEnumerable<Contact>> ListByUserId(long id)
     {
         return await _context.Contacts.Where(p => p.UserId == id)
-            .Include(p => p.User)
+            .Include(p => p.Account)
             .ToListAsync();
     }
 
     public async Task<Contact> FindByIdAsync(long id)
     {
         return await _context.Contacts
-            .Include(p => p.User)
+            .Include(p => p.Account)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 

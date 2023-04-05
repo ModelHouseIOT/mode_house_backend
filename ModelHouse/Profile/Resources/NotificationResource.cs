@@ -10,6 +10,6 @@ public class NotificationResource
     public string active { get; set; }
     public DateTime ShippingTime { get; set; }
 
-    public UserResource User { get; set; }
+    public AccountResource User { get; set; }
     public long UserId { get; set; }
 }

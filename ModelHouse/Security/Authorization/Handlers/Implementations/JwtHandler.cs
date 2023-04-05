@@ -18,7 +18,7 @@ public class JwtHandler : IJwtHandler
         _appSettings = appSettings.Value;
     }
 
-    public string GenerateToken(User user)
+    public string GenerateToken(Account user)
     {
         // Generate Token for a valid period of 7 days
         

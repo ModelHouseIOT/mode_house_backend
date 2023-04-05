@@ -12,8 +12,8 @@ public class Post
     public string Description { get; set; }
     public string Foto { get; set; }
     
-    public User User { get; set; }
-    public long UserId { get; set; }
+    public Account Account { get; set; }
+    public long AccountId { get; set; }
     public IList<Order> Orders { get; set; } = new List<Order>();
 
 }

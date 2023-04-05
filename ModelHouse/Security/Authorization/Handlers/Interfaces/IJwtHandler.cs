@@ -4,6 +4,6 @@ namespace ModelHouse.Security.Authorization.Handlers.Interfaces;
 
 public interface IJwtHandler
 {
-    string GenerateToken(User user);
+    string GenerateToken(Account user);
     int? ValidateToken(string token);
 }

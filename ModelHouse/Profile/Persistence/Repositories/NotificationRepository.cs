@@ -15,7 +15,7 @@ public class NotificationRepository: BaseRepository, INotificationRepository
     public async Task<IEnumerable<Notification>> ListAsync()
     {
         return await _context.Notifications
-            .Include(p => p.User)
+            .Include(p => p.Account)
             .ToListAsync();
     }
 
@@ -28,8 +28,8 @@ public class NotificationRepository: BaseRepository, INotificationRepository
     public async Task<IEnumerable<Notification>> ListByUserId(long id)
     {
         return await _context.Notifications
-            .Where(p => p.UserId == id)
-            .Include(p=>p.User)
+            .Where(p => p.AccountId == id)
+            .Include(p=>p.Account)
             .ToListAsync();
     }
 
