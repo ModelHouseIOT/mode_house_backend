@@ -1,6 +1,7 @@
 ﻿using ModelHouse.Security.Domain.Models;
 using ModelHouse.Security.Domain.Services.Communication;
 using ModelHouse.Security.Resources;
+using ModelHouse.Security.Resources.ProjectResource;
 
 namespace ModelHouse.Security.Domain.Services
 {

@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using ModelHouse.Profile.Domain.Models;
-using ModelHouse.Profile.Resources;
 using ModelHouse.Security.Domain.Models;
 using ModelHouse.Security.Domain.Services;
 using ModelHouse.Security.Domain.Services.Communication;
 using ModelHouse.Security.Resources;
+using ModelHouse.Security.Resources.UserProfileResource;
 using ModelHouse.Shared.Extensions;
 using MySqlX.XDevAPI.Common;
 
@@ -16,12 +15,14 @@ namespace ModelHouse.Security.Controllers
     public class UserController: ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(IUserService userService, IMapper mapper, IAccountService accountService)
         {
             _userService = userService;
             _mapper = mapper;
+            _accountService = accountService;
         }
         [HttpGet]
         public async Task<IEnumerable<GetUserResource>> GetAllUser()
@@ -55,6 +56,7 @@ namespace ModelHouse.Security.Controllers
                 return BadRequest(result.Message);
 
             var profileResource = _mapper.Map<User, GetUserResource>(result.Resource);
+            var account = _accountService.UpdateUserProfileIdAsync(result.Resource.AccountId, result.Resource.Id);
             return Ok(profileResource);
         }
 

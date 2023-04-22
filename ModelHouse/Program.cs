@@ -1,10 +1,5 @@
-using LearningCenter.API.Shared.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using ModelHouse.Profile.Domain.Repositories;
-using ModelHouse.Profile.Domain.Services;
-using ModelHouse.Profile.Persistence.Repositories;
-using ModelHouse.Profile.Services;
 using ModelHouse.Security.Authorization.Handlers.Implementations;
 using ModelHouse.Security.Authorization.Handlers.Interfaces;
 using ModelHouse.Security.Authorization.Middleware;
@@ -13,8 +8,13 @@ using ModelHouse.Security.Domain.Repositories;
 using ModelHouse.Security.Domain.Services;
 using ModelHouse.Security.Persistence.Repositories;
 using ModelHouse.Security.Services;
+using ModelHouse.ServiceManagement.Domain.Repositories;
+using ModelHouse.ServiceManagement.Domain.Services;
+using ModelHouse.ServiceManagement.Persistence.Repositories;
+using ModelHouse.ServiceManagement.Services;
 using ModelHouse.Shared.Domain.Repositories;
 using ModelHouse.Shared.Persistence.Contexts;
+using ModelHouse.Shared.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -98,14 +98,12 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Learning Injection Configuration
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IPostRepository, PostRepository>();
-builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+builder.Services.AddScoped<IRequestService, RequestService>();
+builder.Services.AddScoped<IFavoritesRepository, FavoriteRepository>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<IContactRepository, ContactRepository>();
-builder.Services.AddScoped<IContactService, ContactService>();
-builder.Services.AddScoped<IMessageRepository, MessageRepository>();
-builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddHttpContextAccessor();
 
 // Security Injection Configuration
@@ -113,6 +111,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IJwtHandler, JwtHandler>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBusinessProfileRepository, BusinessProfileRepository>();
@@ -124,9 +124,9 @@ builder.Services.AddScoped<IBusinessProfileService, BusinessProfileService>();
 builder.Services.AddAutoMapper(
     typeof(ModelHouse.Security.Mapping.ModelToResourceProfile), 
     typeof(ModelHouse.Security.Mapping.ResourceToModelProfile),
-    typeof(ModelHouse.Profile.Mapping.ResourceToModelProfile),
-    typeof(ModelHouse.Profile.Mapping.ModelToResourceProfile)
-    
+    typeof(ModelHouse.ServiceManagement.Mapping.ModelToResourceProfile),
+    typeof(ModelHouse.ServiceManagement.Mapping.ResourceToModelProfile)
+
     );
 
 var app = builder.Build();

@@ -1,6 +1,7 @@
-namespace ModelHouse.Shared.Domain.Repositories;
-
-public interface IUnitOfWork
+namespace ModelHouse.Shared.Domain.Repositories
 {
-    Task CompleteAsync();
+    public interface IUnitOfWork
+    {
+        Task CompleteAsync();
+    }
 }

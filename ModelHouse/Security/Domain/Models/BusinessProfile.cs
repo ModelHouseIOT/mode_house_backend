@@ -1,4 +1,6 @@
-﻿namespace ModelHouse.Security.Domain.Models
+﻿using ModelHouse.ServiceManagement.Domain.Models;
+
+namespace ModelHouse.Security.Domain.Models
 {
     public class BusinessProfile
     {
@@ -13,6 +15,8 @@
         public long AccountId { get; set; }
         public Account Account { get; set; }
 
-        public List<Project> Projects { get; set; }
+        public IList<Project> Projects { get; set; } = new List<Project>();
+        public IList<Request> Requests { get; set; } = new List<Request>();
+
     }
 }

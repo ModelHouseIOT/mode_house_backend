@@ -1,35 +1,36 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace ModelHouse.Shared.Extensions;
-
-public static class ModelBuilderExtensions
+namespace ModelHouse.Shared.Extensions
 {
-    public static void UseSnakeCaseNamingConvention(this ModelBuilder builder)
+    public static class ModelBuilderExtensions
     {
-        foreach (var entity in builder.Model.GetEntityTypes())
+        public static void UseSnakeCaseNamingConvention(this ModelBuilder builder)
         {
-            entity.SetTableName(entity.GetTableName().ToSnakeCase());
-
-            foreach (var property in entity.GetProperties())
+            foreach (var entity in builder.Model.GetEntityTypes())
             {
-                // TODO: Review syntax
-                property.SetColumnName(property.GetColumnBaseName().ToSnakeCase());
+                entity.SetTableName(entity.GetTableName().ToSnakeCase());
+
+                foreach (var property in entity.GetProperties())
+                {
+                    // TODO: Review syntax
+                    property.SetColumnName(property.GetColumnBaseName().ToSnakeCase());
                 
-            }
+                }
 
-            foreach (var key in entity.GetKeys())
-            {
-                key.SetName(key.GetName().ToSnakeCase());
-            }
+                foreach (var key in entity.GetKeys())
+                {
+                    key.SetName(key.GetName().ToSnakeCase());
+                }
 
-            foreach (var foreignKey in entity.GetForeignKeys())
-            {
-                foreignKey.SetConstraintName(foreignKey.GetConstraintName().ToSnakeCase());
-            }
+                foreach (var foreignKey in entity.GetForeignKeys())
+                {
+                    foreignKey.SetConstraintName(foreignKey.GetConstraintName().ToSnakeCase());
+                }
 
-            foreach (var index in entity.GetIndexes())
-            {
-                index.SetDatabaseName(index.GetDatabaseName().ToSnakeCase());
+                foreach (var index in entity.GetIndexes())
+                {
+                    index.SetDatabaseName(index.GetDatabaseName().ToSnakeCase());
+                }
             }
         }
     }

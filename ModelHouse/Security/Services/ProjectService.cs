@@ -5,6 +5,7 @@ using ModelHouse.Security.Domain.Services;
 using ModelHouse.Security.Domain.Services.Communication;
 using ModelHouse.Security.Persistence.Repositories;
 using ModelHouse.Security.Resources;
+using ModelHouse.Security.Resources.ProjectResource;
 using ModelHouse.Shared.Domain.Repositories;
 using Org.BouncyCastle.Ocsp;
 

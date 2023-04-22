@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ModelHouse.Security.Domain.Models;
 using ModelHouse.Security.Domain.Services;
 using ModelHouse.Security.Resources;
+using ModelHouse.Security.Resources.BusinessProfileResource;
 using ModelHouse.Security.Services;
 using ModelHouse.Shared.Extensions;
 
@@ -13,12 +14,14 @@ namespace ModelHouse.Security.Controllers
     public class BusinessProfileController: ControllerBase
     {
         private readonly IBusinessProfileService businessProfileService;
+        private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
 
-        public BusinessProfileController(IBusinessProfileService businessProfileService, IMapper mapper)
+        public BusinessProfileController(IBusinessProfileService businessProfileService, IMapper mapper, IAccountService accountService)
         {
             this.businessProfileService = businessProfileService;
             _mapper = mapper;
+            _accountService = accountService;
         }
         [HttpGet]
         public async Task<IEnumerable<GetBusinessProfileResource>> GetAllBusinessProfile()
@@ -52,6 +55,7 @@ namespace ModelHouse.Security.Controllers
                 return BadRequest(result.Message);
 
             var profileResource = _mapper.Map<BusinessProfile, GetBusinessProfileResource>(result.Resource);
+            var account = _accountService.UpdateBusinessProfileIdAsync(result.Resource.AccountId, result.Resource.Id);
             return Ok(profileResource);
         }
 

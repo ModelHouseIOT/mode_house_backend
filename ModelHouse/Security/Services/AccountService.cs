@@ -1,152 +1,220 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ModelHouse.Security.Authorization.Handlers.Interfaces;
 using ModelHouse.Security.Domain.Models;
 using ModelHouse.Security.Domain.Repositories;
 using ModelHouse.Security.Domain.Services;
 using ModelHouse.Security.Domain.Services.Communication;
 using ModelHouse.Security.Exceptions;
+using ModelHouse.Security.Resources.AccountResource;
+using ModelHouse.Security.Resources.UserProfileResource;
 using ModelHouse.Shared.Domain.Repositories;
 using BCryptNet = BCrypt.Net.BCrypt;
-namespace ModelHouse.Security.Services;
-
-public class AccountService : IAccountService
+namespace ModelHouse.Security.Services
 {
-    private readonly IAccountRepository _accountRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    private readonly IJwtHandler _jwtHandler;
-    private readonly IMapper _mapper;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-
-    public AccountService(IAccountRepository accountRepository, IUnitOfWork unitOfWork, IJwtHandler jwtHandler, IMapper mapper, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
+    public class AccountService : IAccountService
     {
-        _accountRepository = accountRepository;
-        _unitOfWork = unitOfWork;
-        _jwtHandler = jwtHandler;
-        _mapper = mapper;
-        _webHostEnvironment = webHostEnvironment;
-        _httpContextAccessor = httpContextAccessor;
-    }
+        private readonly IAccountRepository _accountRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-    public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
-    {
-        var account = await _accountRepository.FindByEmailAsync(request.EmailAddress);
-        
-        // Validate 
-        if (account == null || !BCryptNet.Verify(request.Password, account.PasswordHash))
+        private readonly IJwtHandler _jwtHandler;
+        private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+
+        public AccountService(IAccountRepository accountRepository, IUnitOfWork unitOfWork, IJwtHandler jwtHandler, IMapper mapper, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
         {
-            Console.WriteLine("Authentication Error");
-            throw new AppException("Username or password is incorrect");
+            _accountRepository = accountRepository;
+            _unitOfWork = unitOfWork;
+            _jwtHandler = jwtHandler;
+            _mapper = mapper;
+            _webHostEnvironment = webHostEnvironment;
+            _httpContextAccessor = httpContextAccessor;
         }
+
+        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
+        {
+            var account = await _accountRepository.FindByEmailAsync(request.EmailAddress);
         
-        Console.WriteLine("Authentication successful. About to generate token");
-        // Authentication successful
-        var response = _mapper.Map<AuthenticateResponse>(account);
-        Console.WriteLine($"Response: {response.Id}, {response.EmailAddress}");
-        response.Token = _jwtHandler.GenerateToken(account);
-        Console.WriteLine($"Generated token is {response.Token}");
-        return response;
-    }
-
-    public async Task<IEnumerable<Account>> ListAsync()
-    {
-        return await _accountRepository.ListAsync();
-    }
-
-    public async Task<Account> GetByIdAsync(int id)
-    {
-        var account = await _accountRepository.FindByIdAsync(id);
-        Console.WriteLine(account.User);
-        Console.WriteLine("Hola hola hola hola");
-        if (account == null) throw new KeyNotFoundException("User not found");
-        return account;
-    }
-
-    public async Task<Account> GetByEmailAsync(string email)
-    {
-        return await _accountRepository.FindByEmailAsync(email);
-    }
-
-
-    public async Task RegisterAsync(RegisterRequest request)
-    {
-        // Validate if Username is already taken
-        if (_accountRepository.ExistsByEmail(request.EmailAddress))
-            throw new AppException($"Email is already taken");
+            // Validate 
+            if (account == null || !BCryptNet.Verify(request.Password, account.PasswordHash))
+            {
+                Console.WriteLine("Authentication Error");
+                throw new AppException("Username or password is incorrect");
+            }
         
-        // Map Request to User Object
-        var account = _mapper.Map<Account>(request);
-
-        // Hash password
-        account.PasswordHash = BCryptNet.HashPassword(request.Password);
-        account.Role = "user";
-        // Save User
-        try
-        {
-            await _accountRepository.AddAsync(account);
-            await _unitOfWork.CompleteAsync();
+            Console.WriteLine("Authentication successful. About to generate token");
+            // Authentication successful
+            var response = _mapper.Map<AuthenticateResponse>(account);
+            Console.WriteLine($"Response: {response.Id}, {response.EmailAddress}");
+            response.Token = _jwtHandler.GenerateToken(account);
+            Console.WriteLine($"Generated token is {response.Token}");
+            return response;
         }
-        catch (Exception e)
+
+        public async Task<IEnumerable<Account>> ListAsync()
         {
-            throw new AppException($"An Error occurred while saving the user: {account.EmailAddress}");
+            return await _accountRepository.ListAsync();
         }
-    }
 
-    public async Task<Account> UpdateAsync(int id, UpdateRequest request, byte[] file, string contentType,string extension, string container)
-    {
-        var account = GetById(id);
-        if(account == null)
-            return null;
-        try
+        public async Task<Account> GetByIdAsync(int id)
         {
-            string wwwrootPath = _webHostEnvironment.WebRootPath;
-            if (string.IsNullOrEmpty(wwwrootPath))
-                throw new Exception();
-            string carpetaArchivo = Path.Combine(wwwrootPath, container);
-            if (!Directory.Exists(carpetaArchivo))
-                Directory.CreateDirectory(carpetaArchivo);
-            string nombreFinal = $"{Guid.NewGuid()}{extension}";
-            //System.Console.WriteLine(file);
-            string rutaFinal = Path.Combine(carpetaArchivo, nombreFinal);
-            System.Console.WriteLine(rutaFinal);
-            File.WriteAllBytesAsync(rutaFinal, file);
-            string urlActual =
-                $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
-            string dbUrl = Path.Combine(urlActual, container, nombreFinal).Replace("\\", "/");
-
-            //user.Image = dbUrl;
-
-            _accountRepository.Update(account);
-            await _unitOfWork.CompleteAsync();
+            var account = await _accountRepository.FindByIdAsync(id);
+            Console.WriteLine(account.User);
+            Console.WriteLine("Hola hola hola hola");
+            if (account == null) throw new KeyNotFoundException("Account not found");
             return account;
         }
-        catch (Exception e)
+
+        public async Task<Account> GetByEmailAsync(string email)
         {
-            throw new AppException($"An error occurred while updating the user: {e.Message}");
+            return await _accountRepository.FindByEmailAsync(email);
         }
-    }
+
+
+        public async Task RegisterAsync(RegisterRequest request)
+        {
+            if (_accountRepository.ExistsByEmail(request.EmailAddress))
+                throw new AppException($"Email is already taken");
+        
+            var account = _mapper.Map<Account>(request);
+
+            account.PasswordHash = BCryptNet.HashPassword(request.Password);
+            account.IsActive = true;
+            account.Role = "User";
+            account.DateCreate = DateTime.Now;
+            account.LastLogin = DateTime.Now;
+            account.BusinessProfileId = 0;
+            account.UserId = 0;
+
+            CreateUseResource user = null;
+            try
+            {
+                await _accountRepository.AddAsync(account);
+                await _unitOfWork.CompleteAsync();
+            }
+            catch (Exception e)
+            {
+                throw new AppException($"An Error occurred while saving the Account: {account.EmailAddress}");
+            }
+        }
+
+        public async Task<Account> UpdateAsync(int id, UpdateRequest request)
+        {
+            var account = GetById(id);
+            if(account == null)
+                return null;
+            account.EmailAddress = request.EmailAddress;
+            account.LastLogin = DateTime.Now;
+            try
+            {
+                _accountRepository.Update(account);
+                await _unitOfWork.CompleteAsync();
+                return account;
+            }
+            catch (Exception e)
+            {
+                throw new AppException($"An error occurred while updating the Account: {e.Message}");
+            }
+        }
+
+        public async Task<Account> UpdateRoleAsync(long id, ChangeRole request)
+        {
+            var account = GetById(id);
+            if(account == null)
+                return null;
+            account.Role = request.Role;
+            account.LastLogin = DateTime.Now;
+            try
+            {
+                _accountRepository.Update(account);
+                await _unitOfWork.CompleteAsync();
+                return account;
+            }
+            catch (Exception e)
+            {
+                throw new AppException($"An error occurred while updating the Account: {e.Message}");
+            }
+        }
+
+        public async Task<Account> UpdateIsActiveAsync(long id, ChangeIsActive request)
+        {
+            var account = GetById(id);
+            if(account == null)
+                return null;
+            account.IsActive = request.IsActive;
+            account.LastLogin = DateTime.Now;
+            try
+            {
+                _accountRepository.Update(account);
+                await _unitOfWork.CompleteAsync();
+                return account;
+            }
+            catch (Exception e)
+            {
+                throw new AppException($"An error occurred while updating the Account: {e.Message}");
+            }
+        }
+
+        public async Task<Account> UpdateUserProfileIdAsync(long id, long UserId)
+        {
+            var account = GetById(id);
+            if(account == null)
+                return null;
+            account.UserId = UserId;
+            account.LastLogin = DateTime.Now;
+            try
+            {
+                _accountRepository.Update(account);
+                await _unitOfWork.CompleteAsync();
+                return account;
+            }
+            catch (Exception e)
+            {
+                throw new AppException($"An error occurred while updating the Account: {e.Message}");
+            }
+        }
+
+        public async Task<Account> UpdateBusinessProfileIdAsync(long id, long BusinessProfileId)
+        {
+            var account = GetById(id);
+            if(account == null)
+                return null;
+            account.BusinessProfileId = BusinessProfileId;
+            account.LastLogin = DateTime.Now;
+            try
+            {
+                _accountRepository.Update(account);
+                await _unitOfWork.CompleteAsync();
+                return account;
+            }
+            catch (Exception e)
+            {
+                throw new AppException($"An error occurred while updating the Account: {e.Message}");
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var account = GetById(id);
+            try
+            {
+                _accountRepository.Remove(account);
+                await _unitOfWork.CompleteAsync();
+            }
+            catch (Exception e)
+            {
+                throw new AppException($"An error occurred while deleting the Account: {e.Message}");
+            }
+        }
     
-    public async Task DeleteAsync(int id)
-    {
-        var account = GetById(id);
-        try
+        // Helper Methods
+        private Account GetById(long id)
         {
-            _accountRepository.Remove(account);
-            await _unitOfWork.CompleteAsync();
+            var account = _accountRepository.FindById(id);
+            if (account == null) throw new KeyNotFoundException("Account not found");
+            return account;
         }
-        catch (Exception e)
-        {
-            throw new AppException($"An error occurred while deleting the user: {e.Message}");
-        }
-    }
-    
-    // Helper Methods
-    private Account GetById(int id)
-    {
-        var account = _accountRepository.FindById(id);
-        if (account == null) throw new KeyNotFoundException("User not found");
-        return account;
     }
 }

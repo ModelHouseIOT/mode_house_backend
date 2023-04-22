@@ -10,6 +10,7 @@ using ModelHouse.Security.Persistence.Repositories;
 using ModelHouse.Security.Resources;
 using ModelHouse.Shared.Domain.Repositories;
 using System.ComponentModel;
+using ModelHouse.Security.Resources.UserProfileResource;
 
 namespace ModelHouse.Security.Services
 {
@@ -43,6 +44,10 @@ namespace ModelHouse.Security.Services
                 return new UserResponse("Invalid user");
             if (existingAccount.User != null)
                 return new UserResponse("The user already has a profile");
+            profile.Image = "";
+            profile.RegistrationDate = DateTime.Now;
+            profile.LastLogin = DateTime.Now;
+            profile.AccountStatus = true;
             try
             {
                 await _userRepository.CreateUser(profile);
@@ -78,10 +83,7 @@ namespace ModelHouse.Security.Services
             existingUser.FirstName = user.FirstName;
             existingUser.LastName = user.LastName;
             existingUser.PhoneNumber = user.PhoneNumber;
-            existingUser.RegistrationDate = user.RegistrationDate;
-            existingUser.LastLogin = user.LastLogin;
             existingUser.Gender = user.Gender;
-            existingUser.AccountStatus = user.AccountStatus;
             try
             {
                 string wwwrootPath = _webHostEnvironment.WebRootPath;

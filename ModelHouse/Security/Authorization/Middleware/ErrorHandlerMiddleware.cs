@@ -3,47 +3,48 @@ using System.Net.Mime;
 using System.Text.Json;
 using ModelHouse.Security.Exceptions;
 
-namespace ModelHouse.Security.Authorization.Middleware;
-
-public class ErrorHandlerMiddleware
+namespace ModelHouse.Security.Authorization.Middleware
 {
-    private readonly RequestDelegate _next;
-
-
-    public ErrorHandlerMiddleware(RequestDelegate next)
+    public class ErrorHandlerMiddleware
     {
-        _next = next;
-    }
+        private readonly RequestDelegate _next;
 
-    public async Task Invoke(HttpContext context)
-    {
-        try
+
+        public ErrorHandlerMiddleware(RequestDelegate next)
         {
-            await _next(context);
+            _next = next;
         }
-        catch (Exception error)
+
+        public async Task Invoke(HttpContext context)
         {
-            var response = context.Response;
-            response.ContentType = MediaTypeNames.Application.Json;
-
-            switch (error)
+            try
             {
-                case AppException e:
-                    // Custom application error
-                    response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    break;
-                case KeyNotFoundException e:
-                    // Not found error
-                    response.StatusCode = (int)HttpStatusCode.NotFound;
-                    break;
-                default:
-                    // Unhandled error
-                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
+                await _next(context);
             }
+            catch (Exception error)
+            {
+                var response = context.Response;
+                response.ContentType = MediaTypeNames.Application.Json;
 
-            var result = JsonSerializer.Serialize(new { message = error?.Message });
-            await response.WriteAsync(result);
+                switch (error)
+                {
+                    case AppException e:
+                        // Custom application error
+                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        break;
+                    case KeyNotFoundException e:
+                        // Not found error
+                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                        break;
+                    default:
+                        // Unhandled error
+                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        break;
+                }
+
+                var result = JsonSerializer.Serialize(new { message = error?.Message });
+                await response.WriteAsync(result);
+            }
         }
     }
 }

@@ -1,7 +1,8 @@
-namespace ModelHouse.Security.Authorization.Attributes;
-
-[AttributeUsage(AttributeTargets.Method)]
-public class AllowAnonymousAttribute : Attribute
+namespace ModelHouse.Security.Authorization.Attributes
 {
+    [AttributeUsage(AttributeTargets.Method)]
+    public class AllowAnonymousAttribute : Attribute
+    {
     
+    }
 }

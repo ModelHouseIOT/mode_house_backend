@@ -1,12 +1,18 @@
-namespace ModelHouse.Security.Domain.Services.Communication;
+using ModelHouse.Security.Domain.Models;
 
-public class AuthenticateResponse
+namespace ModelHouse.Security.Domain.Services.Communication
 {
-    public int Id { get; set; }
-    public string EmailAddress { get; set; }
-    public bool IsActive { get; set; }
-    public DateTime DateCreate { get; set; }
-    public DateTime LastLogin { get; set; }
-    public string Role { get; set; }
-    public string Token { get; set; }
+    public class AuthenticateResponse
+    {
+        public int Id { get; set; }
+        public string EmailAddress { get; set; }
+        public bool IsActive { get; set; }
+        public long UserId { get; set; }
+        public long BusinessProfileId { get; set; }
+        public DateTime DateCreate { get; set; }
+        public DateTime LastLogin { get; set; }
+        public string Role { get; set; }
+        public string Token { get; set; }
+        public BusinessProfile BusinessProfile { get; set; }
+    }
 }

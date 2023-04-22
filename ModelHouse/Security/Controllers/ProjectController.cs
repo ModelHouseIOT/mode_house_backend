@@ -5,6 +5,7 @@ using ModelHouse.Security.Domain.Services;
 using ModelHouse.Security.Resources;
 using ModelHouse.Shared.Extensions;
 using System.Security.Principal;
+using ModelHouse.Security.Resources.ProjectResource;
 
 namespace ModelHouse.Security.Controllers
 {

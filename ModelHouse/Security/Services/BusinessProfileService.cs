@@ -5,6 +5,7 @@ using ModelHouse.Security.Domain.Services;
 using ModelHouse.Security.Domain.Services.Communication;
 using ModelHouse.Security.Persistence.Repositories;
 using ModelHouse.Security.Resources;
+using ModelHouse.Security.Resources.BusinessProfileResource;
 using ModelHouse.Shared.Domain.Repositories;
 
 namespace ModelHouse.Security.Services
@@ -43,6 +44,8 @@ namespace ModelHouse.Security.Services
             }
             if (existingAccount.BusinessProfile != null)
                 return new BusinessProfileResponse("The user already has a profile");
+            profile.Image = "";
+            profile.FoundationDate = DateTime.Now;
             try
             {
                 await _businessProfileRepository.CreateBusinessProfile(profile);
@@ -80,7 +83,7 @@ namespace ModelHouse.Security.Services
             businesProfile.Address = profile.Address;
             businesProfile.WebSite = profile.WebSite;
             businesProfile.PhoneBusiness = profile.PhoneBusiness;
-            businesProfile.FoundationDate = profile.FoundationDate;
+            businesProfile.FoundationDate = DateTime.Now;
             try
             {
                 string wwwrootPath = _webHostEnvironment.WebRootPath;

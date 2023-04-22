@@ -1,6 +1,7 @@
-namespace ModelHouse.Security.Authorization.Settings;
-
-public class AppSettings
+namespace ModelHouse.Security.Authorization.Settings
 {
-    public string Secret { get; set; }
+    public class AppSettings
+    {
+        public string Secret { get; set; }
+    }
 }
