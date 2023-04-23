@@ -13,6 +13,6 @@ namespace ModelHouse.Security.Domain.Services.Communication
         public DateTime LastLogin { get; set; }
         public string Role { get; set; }
         public string Token { get; set; }
-        public BusinessProfile BusinessProfile { get; set; }
+        //public BusinessProfile BusinessProfile { get; set; }
     }
 }

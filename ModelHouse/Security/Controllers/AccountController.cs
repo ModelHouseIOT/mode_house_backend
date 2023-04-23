@@ -46,7 +46,13 @@ namespace ModelHouse.Security.Controllers
             var resources = _mapper.Map<IEnumerable<Account>, IEnumerable<AccountResource>>(account);
             return Ok(resources);
         }
-
+        [HttpGet("business")]
+        public async Task<IActionResult> GetAllBusiness()
+        {
+            var account = await _accountService.ListBusinessAsync();
+            var resources = _mapper.Map<IEnumerable<Account>, IEnumerable<AccountResource>>(account);
+            return Ok(resources);
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

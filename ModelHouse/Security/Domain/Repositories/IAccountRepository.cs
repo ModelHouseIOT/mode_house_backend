@@ -5,6 +5,7 @@ namespace ModelHouse.Security.Domain.Repositories
     public interface IAccountRepository
     {
         Task<IEnumerable<Account>> ListAsync();
+        Task<IEnumerable<Account>> ListBusinessAsync();
         Task AddAsync(Account user);
         Task<Account> FindByIdAsync(long id);
         Task<Account> FindByEmailAsync(string email);

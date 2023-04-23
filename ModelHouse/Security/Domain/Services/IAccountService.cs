@@ -7,9 +7,9 @@ namespace ModelHouse.Security.Domain.Services
     public interface IAccountService
     {
         Task<AuthenticateResponse> Authenticate(AuthenticateRequest request);
-        Task<IEnumerable<Account>> ListAsync();
+        Task<IEnumerable<Account>> ListAsync();        
+        Task<IEnumerable<Account>> ListBusinessAsync();
         Task<Account> GetByIdAsync(int id);
-
         Task<Account> GetByEmailAsync(string email);
         Task RegisterAsync(RegisterRequest request);
         Task<Account> UpdateAsync(int id, UpdateRequest request);

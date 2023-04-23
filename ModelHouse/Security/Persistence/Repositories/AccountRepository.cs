@@ -17,6 +17,11 @@ namespace ModelHouse.Security.Persistence.Repositories
             return await _context.Accounts.ToListAsync();
 
         }
+ 
+        public async Task<IEnumerable<Account>> ListBusinessAsync()
+        {
+            return await _context.Accounts.Where(p=>p.Role == "Business").ToListAsync();
+        }
 
         public async Task AddAsync(Account user)
         {

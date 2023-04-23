@@ -58,6 +58,11 @@ namespace ModelHouse.Security.Services
             return await _accountRepository.ListAsync();
         }
 
+        public async Task<IEnumerable<Account>> ListBusinessAsync()
+        {
+            return await _accountRepository.ListBusinessAsync();
+        }
+
         public async Task<Account> GetByIdAsync(int id)
         {
             var account = await _accountRepository.FindByIdAsync(id);

@@ -25,7 +25,7 @@ namespace ModelHouse.Security.Persistence.Repositories
         public async Task<User> GetUserById(long id)
         {
             return await _context.Users.Include(p => p.Account)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.AccountId == id);
         }
 
         public void UpdateUser(User profile)
