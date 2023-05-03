@@ -1,15 +1,12 @@
-using ModelHouse.Security.Domain.Models;
+﻿using ModelHouse.Security.Domain.Models;
 
-namespace ModelHouse.Security.Domain.Repositories;
-
-public interface IUserRepository
+namespace ModelHouse.Security.Domain.Repositories
 {
-    Task<IEnumerable<User>> ListAsync();
-    Task AddAsync(User user);
-    Task<User> FindByIdAsync(long id);
-    Task<User> FindByEmailAsync(string email);
-    bool ExistsByEmail(string username);
-    User FindById(long id);
-    void Update(User user);
-    void Remove(User user);
+    public interface IUserRepository
+    {
+        Task<IEnumerable<User>> GetAllUser();
+        Task<User> GetUserById(long id);
+        Task CreateUser(User profile);
+        void UpdateUser(User profile);
+    }
 }

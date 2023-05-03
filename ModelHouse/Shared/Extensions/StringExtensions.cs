@@ -1,29 +1,30 @@
-namespace ModelHouse.Shared.Extensions;
-
-public static class StringExtensions
+namespace ModelHouse.Shared.Extensions
 {
-    public static string ToSnakeCase(this string text)
+    public static class StringExtensions
     {
-        static IEnumerable<char> Convert(CharEnumerator e)
+        public static string ToSnakeCase(this string text)
         {
-            if (!e.MoveNext()) yield break;
-
-            yield return char.ToLower(e.Current);
-
-            while (e.MoveNext())
+            static IEnumerable<char> Convert(CharEnumerator e)
             {
-                if (char.IsUpper(e.Current))
+                if (!e.MoveNext()) yield break;
+
+                yield return char.ToLower(e.Current);
+
+                while (e.MoveNext())
                 {
-                    yield return '_';
-                    yield return char.ToLower(e.Current);
-                }
-                else
-                {
-                    yield return e.Current;
+                    if (char.IsUpper(e.Current))
+                    {
+                        yield return '_';
+                        yield return char.ToLower(e.Current);
+                    }
+                    else
+                    {
+                        yield return e.Current;
+                    }
                 }
             }
-        }
 
-        return new string(Convert(text.GetEnumerator()).ToArray()); 
+            return new string(Convert(text.GetEnumerator()).ToArray()); 
+        }
     }
 }

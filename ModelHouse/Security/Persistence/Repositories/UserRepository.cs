@@ -1,55 +1,36 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ModelHouse.Security.Domain.Models;
 using ModelHouse.Security.Domain.Repositories;
 using ModelHouse.Shared.Persistence.Contexts;
 using ModelHouse.Shared.Persistence.Repositories;
 
-namespace ModelHouse.Security.Persistence.Repositories;
-
-public class UserRepository : BaseRepository, IUserRepository
+namespace ModelHouse.Security.Persistence.Repositories
 {
-    public UserRepository(AppDbContext context) : base(context)
+    public class UserRepository : BaseRepository, IUserRepository
     {
-    }
+        public UserRepository(AppDbContext context) : base(context)
+        {
+        }
 
-    public async Task<IEnumerable<User>> ListAsync()
-    {
-        return await _context.Users.ToListAsync();
+        public async Task CreateUser(User profile)
+        {
+            await _context.Users.AddAsync(profile);
+        }
 
-    }
+        public async Task<IEnumerable<User>> GetAllUser()
+        {
+            return await _context.Users.Include(p => p.Account).ToListAsync();
+        }
 
-    public async Task AddAsync(User user)
-    {
-        await _context.Users.AddAsync(user);
-    }
+        public async Task<User> GetUserById(long id)
+        {
+            return await _context.Users.Include(p => p.Account)
+                .FirstOrDefaultAsync(p => p.AccountId == id);
+        }
 
-    public async Task<User> FindByIdAsync(long id)
-    {
-        return await _context.Users.FindAsync(id);
-    }
-
-    public async Task<User> FindByEmailAsync(string email)
-    {
-        return await _context.Users.SingleOrDefaultAsync(x => x.EmailAddress == email);
-    }
-
-    public bool ExistsByEmail(string email)
-    {
-        return _context.Users.Any(x => x.EmailAddress == email);
-    }
-
-    public User FindById(long id)
-    {
-        return _context.Users.Include(p=>p.ProfileUser).FirstOrDefault(p=>p.Id == id);
-    }
-
-    public void Update(User user)
-    {
-        _context.Users.Update(user);
-    }
-
-    public void Remove(User user)
-    {
-        _context.Users.Remove(user);
+        public void UpdateUser(User profile)
+        {
+            _context.Users.Update(profile);
+        }
     }
 }

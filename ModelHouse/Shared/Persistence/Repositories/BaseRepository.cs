@@ -1,14 +1,15 @@
 
 using ModelHouse.Shared.Persistence.Contexts;
 
-namespace ModelHouse.Shared.Persistence.Repositories;
-
-public class BaseRepository
+namespace ModelHouse.Shared.Persistence.Repositories
 {
-    protected readonly AppDbContext _context;
-
-    public BaseRepository(AppDbContext context)
+    public class BaseRepository
     {
-        _context = context;
+        protected readonly AppDbContext _context;
+
+        public BaseRepository(AppDbContext context)
+        {
+            _context = context;
+        }
     }
 }

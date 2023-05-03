@@ -22,7 +22,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Imagenes" />
+      <Folder Include="PaymentAndSubcription\Controllers\" />
+      <Folder Include="PaymentAndSubcription\Domain\Repositories\" />
+      <Folder Include="PaymentAndSubcription\Domain\Services\" />
+      <Folder Include="PaymentAndSubcription\Mapping\" />
+      <Folder Include="PaymentAndSubcription\Persistence\Repositories\" />
+      <Folder Include="PaymentAndSubcription\Resource\" />
+      <Folder Include="PaymentAndSubcription\Services\" />
       <Folder Include="wwwroot\" />
     </ItemGroup>
 

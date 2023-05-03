@@ -1,23 +1,23 @@
-using System.Text.Json.Serialization;
-using ModelHouse.Profile.Domain.Models;
+﻿using ModelHouse.ServiceManagement.Domain.Models;
 
-namespace ModelHouse.Security.Domain.Models;
-
-public class User
+namespace ModelHouse.Security.Domain.Models
 {
-    public long Id { get; set; }
-    public string EmailAddress { get; set; }
+    public class User
+    {
+        public long Id { get; set; }
+        public string FirstName { get; set; }
+        public string Image { get; set; }
+        public string LastName { get; set; }
+        public string Gender { get; set; }
+        public string PhoneNumber { get; set; }
+        public DateTime RegistrationDate { get; set; }
+        public DateTime LastLogin { get; set; }
+        public bool AccountStatus { get; set; }
+        public long AccountId { get; set; }
 
-    [JsonIgnore]
-    public string PasswordHash { get; set; }
+        public Account Account { get; set; }
 
-    public ProfileUser ProfileUser { get; set; }
-    public IList<Order> Orders { get; set; } = new List<Order>();
-    public IList<Post> Posts { get; set; } = new List<Post>();
+        public IList<Order> Orders { get; set; } = new List<Order>();
 
-    public IList<Notification> Notifications { get; set; } = new List<Notification>();
-
-
-    public IList<Contact> Contacts { get; set; } = new List<Contact>();
-
+    }
 }

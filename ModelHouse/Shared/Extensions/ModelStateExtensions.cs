@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace ModelHouse.Shared.Extensions;
-
-public static class ModelStateExtensions
+namespace ModelHouse.Shared.Extensions
 {
-    public static List<string> GetErrorMessages(this ModelStateDictionary dictionary)
+    public static class ModelStateExtensions
     {
-        return dictionary.SelectMany(m => m.Value.Errors)
-            .Select(m => m.ErrorMessage)
-            .ToList();
+        public static List<string> GetErrorMessages(this ModelStateDictionary dictionary)
+        {
+            return dictionary.SelectMany(m => m.Value.Errors)
+                .Select(m => m.ErrorMessage)
+                .ToList();
+        }
     }
 }

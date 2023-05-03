@@ -3,30 +3,31 @@ using ModelHouse.Security.Authorization.Handlers.Interfaces;
 using ModelHouse.Security.Authorization.Settings;
 using ModelHouse.Security.Domain.Services;
 
-namespace ModelHouse.Security.Authorization.Middleware;
-
-public class JwtMiddleware
+namespace ModelHouse.Security.Authorization.Middleware
 {
-    private readonly RequestDelegate _next;
-    private readonly AppSettings _appSettings;
-
-    public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
+    public class JwtMiddleware
     {
-        _next = next;
-        _appSettings = appSettings.Value;
-    }
+        private readonly RequestDelegate _next;
+        private readonly AppSettings _appSettings;
 
-    public async Task Invoke(HttpContext context, IUserService userService, IJwtHandler handler)
-    {
-        var token = context.Request.Headers["Authorization"]
-            .FirstOrDefault()?.Split(" ").Last();
-        var userId = handler.ValidateToken(token);
-        if (userId != null)
+        public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
         {
-            // Attach user to context on successful JWT validation
-            context.Items["User"] = await userService.GetByIdAsync(userId.Value);
+            _next = next;
+            _appSettings = appSettings.Value;
         }
 
-        await _next(context);
+        public async Task Invoke(HttpContext context, IAccountService userService, IJwtHandler handler)
+        {
+            var token = context.Request.Headers["Authorization"]
+                .FirstOrDefault()?.Split(" ").Last();
+            var userId = handler.ValidateToken(token);
+            if (userId != null)
+            {
+                // Attach user to context on successful JWT validation
+                context.Items["User"] = await userService.GetByIdAsync(userId.Value);
+            }
+
+            await _next(context);
+        }
     }
 }
