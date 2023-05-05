@@ -162,12 +162,12 @@ namespace ModelHouse.Security.Services
             }
         }
 
-        public async Task<Account> UpdateUserProfileIdAsync(long id, long UserId)
+        public async Task<Account> UpdateUserProfileIdAsync(long id, long userId)
         {
             var account = GetById(id);
             if(account == null)
                 return null;
-            account.UserId = UserId;
+            account.UserId = userId;
             account.LastLogin = DateTime.Now;
             try
             {
@@ -181,12 +181,12 @@ namespace ModelHouse.Security.Services
             }
         }
 
-        public async Task<Account> UpdateBusinessProfileIdAsync(long id, long BusinessProfileId)
+        public async Task<Account> UpdateBusinessProfileIdAsync(long id, long businessId)
         {
             var account = GetById(id);
             if(account == null)
                 return null;
-            account.BusinessProfileId = BusinessProfileId;
+            account.BusinessProfileId = businessId;
             account.LastLogin = DateTime.Now;
             try
             {

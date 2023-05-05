@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Zmqi43c4nQ2QH8zn+U3s0fbg3Mxhaf9sQMEpbQuFth0=",
+  "Hash": "i6fjp8KBa4U/7hkry28ETJ8oT6byBIFroztURsDH2nE=",
   "Source": "ModelHouse",
   "BasePath": "_content/ModelHouse",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "ModelHouse\\wwwroot",
       "Source": "ModelHouse",
-      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\",
       "BasePath": "_content/ModelHouse",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\ImageBusinessProfile\\7858b754-adf5-4264-ab59-f83cfc9972c3.jpeg",
+      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\ImageBusinessProfile\\7858b754-adf5-4264-ab59-f83cfc9972c3.jpeg",
       "SourceId": "ModelHouse",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\",
       "BasePath": "_content/ModelHouse",
       "RelativePath": "ImageBusinessProfile/7858b754-adf5-4264-ab59-f83cfc9972c3.jpeg",
       "AssetKind": "All",
@@ -34,10 +34,10 @@
       "OriginalItemSpec": "wwwroot\\ImageBusinessProfile\\7858b754-adf5-4264-ab59-f83cfc9972c3.jpeg"
     },
     {
-      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\ImageBusinessProfile\\ad21c7db-e5f6-4ca3-ae4f-724507d1f679.png",
+      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\ImageBusinessProfile\\ad21c7db-e5f6-4ca3-ae4f-724507d1f679.png",
       "SourceId": "ModelHouse",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\",
       "BasePath": "_content/ModelHouse",
       "RelativePath": "ImageBusinessProfile/ad21c7db-e5f6-4ca3-ae4f-724507d1f679.png",
       "AssetKind": "All",
@@ -51,10 +51,10 @@
       "OriginalItemSpec": "wwwroot\\ImageBusinessProfile\\ad21c7db-e5f6-4ca3-ae4f-724507d1f679.png"
     },
     {
-      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\ImageBusinessProfile\\dd668435-9e4f-45dd-82d0-087ddda81f05.jpg",
+      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\ImageBusinessProfile\\dd668435-9e4f-45dd-82d0-087ddda81f05.jpg",
       "SourceId": "ModelHouse",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\",
       "BasePath": "_content/ModelHouse",
       "RelativePath": "ImageBusinessProfile/dd668435-9e4f-45dd-82d0-087ddda81f05.jpg",
       "AssetKind": "All",
@@ -68,10 +68,10 @@
       "OriginalItemSpec": "wwwroot\\ImageBusinessProfile\\dd668435-9e4f-45dd-82d0-087ddda81f05.jpg"
     },
     {
-      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\ImageUser\\08ada9ab-6d5e-4782-937d-1beae2ea5c0e.jpeg",
+      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\ImageUser\\08ada9ab-6d5e-4782-937d-1beae2ea5c0e.jpeg",
       "SourceId": "ModelHouse",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\",
       "BasePath": "_content/ModelHouse",
       "RelativePath": "ImageUser/08ada9ab-6d5e-4782-937d-1beae2ea5c0e.jpeg",
       "AssetKind": "All",
@@ -85,10 +85,10 @@
       "OriginalItemSpec": "wwwroot\\ImageUser\\08ada9ab-6d5e-4782-937d-1beae2ea5c0e.jpeg"
     },
     {
-      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\ImageUser\\5bdf2bc8-81a0-4ade-bc02-62aaf8cb4913.jpeg",
+      "Identity": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\ImageUser\\5bdf2bc8-81a0-4ade-bc02-62aaf8cb4913.jpeg",
       "SourceId": "ModelHouse",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\wwwroot\\",
       "BasePath": "_content/ModelHouse",
       "RelativePath": "ImageUser/5bdf2bc8-81a0-4ade-bc02-62aaf8cb4913.jpeg",
       "AssetKind": "All",

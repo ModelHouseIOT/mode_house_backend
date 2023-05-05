@@ -15,8 +15,8 @@ namespace ModelHouse.Security.Domain.Services
         Task<Account> UpdateAsync(int id, UpdateRequest request);
         Task<Account> UpdateRoleAsync(long id, ChangeRole request);
         Task<Account> UpdateIsActiveAsync(long id, ChangeIsActive request);
-        Task<Account> UpdateUserProfileIdAsync(long id, long BusinessProfileId);
-        Task<Account> UpdateBusinessProfileIdAsync(long id, long request);
+        Task<Account> UpdateUserProfileIdAsync(long id, long userId);
+        Task<Account> UpdateBusinessProfileIdAsync(long id, long businessId);
         Task DeleteAsync(int id);
     }
 }

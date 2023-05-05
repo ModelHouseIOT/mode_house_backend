@@ -39,29 +39,6 @@ namespace ModelHouse.Security.Controllers
             return Ok(new { message = "Registration successful" });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var account = await _accountService.ListAsync();
-            var resources = _mapper.Map<IEnumerable<Account>, IEnumerable<AccountResource>>(account);
-            return Ok(resources);
-        }
-        [HttpGet("business")]
-        public async Task<IActionResult> GetAllBusiness()
-        {
-            var account = await _accountService.ListBusinessAsync();
-            var resources = _mapper.Map<IEnumerable<Account>, IEnumerable<AccountResource>>(account);
-            return Ok(resources);
-        }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var account = await _accountService.GetByIdAsync(id);
-            var resource = _mapper.Map<Account, AccountResource>(account);
-
-            return Ok(resource);
-        }
-
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateRequest request)
         {
@@ -69,7 +46,6 @@ namespace ModelHouse.Security.Controllers
             var account = _mapper.Map<Account, AccountResource>(response);
             return Ok(new { message = account });
         }
-    
         [HttpPut("role/{id}")]
         public async Task<IActionResult> UpdateRole(int id, [FromBody] ChangeRole request)
         {

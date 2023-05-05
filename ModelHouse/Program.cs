@@ -32,18 +32,13 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "ACME Learning Center API",
-        Description = "ACME Learning Center Web Services",
+        Title = "ACME Model House API",
+        Description = "ACME Model House Web Services",
         Contact = new OpenApiContact
         {
             Name = "ACME.studio",
             Url = new Uri("https://acme.studio")
-        },
-        License = new OpenApiLicense
-        {
-        Name = "ACME RemodelKing resources License",
-        Url = new Uri("https://acme-learning.com/license")
-    } 
+        }
     });
     options.EnableAnnotations();
     options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme

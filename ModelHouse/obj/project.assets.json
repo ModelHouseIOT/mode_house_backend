@@ -7181,11 +7181,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\ModelHouse.csproj",
+      "projectUniqueName": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\ModelHouse.csproj",
       "projectName": "ModelHouse",
-      "projectPath": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\ModelHouse.csproj",
+      "projectPath": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\ModelHouse.csproj",
       "packagesPath": "C:\\Users\\SETTING\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\Backend\\ModelHouse_Backend\\ModelHouse\\obj\\",
+      "outputPath": "C:\\Users\\SETTING\\Documents\\Ciclo 7 upc\\Model House Code\\ModelHouse\\mode_house_backend\\ModelHouse\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
